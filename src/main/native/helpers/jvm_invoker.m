@@ -44,8 +44,8 @@ typedef int (JNICALL *JLI_Launch_t)(int argc, char ** argv,
     } else {
         JLI_Launch_t dylibSym = dlsym(dylib, "JLI_Launch");
         if (dylibSym == NULL) {
-            log_error(@"Cannot open JVM dynamic library at: %@", dylibLocation);
-            @throw [NSException exceptionWithName:@"SystemConfigurationException" reason:@"Cannot open JVM dynamic library" userInfo:@{@"description": [NSString stringWithFormat:@"Dynamic library location:\n%@", dylibLocation]}];
+            log_error(@"Cannot launch JVM at: %@", dylibLocation);
+            @throw [NSException exceptionWithName:@"SystemConfigurationException" reason:@"Cannot launch JVM" userInfo:@{@"description": [NSString stringWithFormat:@"Dynamic library location:\n%@", dylibLocation]}];
         } else {
 
             int argc = 1 + [arguments count];

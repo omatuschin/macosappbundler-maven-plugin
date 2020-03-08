@@ -63,12 +63,9 @@
     NSString* explictJvmDirectory = [dictionary valueForKey:@"JVMRuntimePath"];
     if ([explictJvmDirectory length] > 0) {
         log_debug(@"Detected explict value for 'JVMRuntimePath' in application dictionary: %@", explictJvmDirectory);
-        if (![[NSFileManager defaultManager] fileExistsAtPath:explictJvmDirectory isDirectory:NULL]) {
-            log_error(@"Cannot find JVM directory (defined explicitely in application dictionary): %@", explictJvmDirectory);
-            @throw [NSException exceptionWithName:@"FileNotFoundException" reason:@"Cannot find JVM directory (defined explicitely in application dictionary)" userInfo:@{@"description": [NSString stringWithFormat:@"Defined location:\n%@", explictJvmDirectory]}];
-        } else {
+        
             log_info(@"Using explicit value for 'JVMRuntimePath' set in application dictionary for JVM directory: %@", explictJvmDirectory);
-        }
+        
         return explictJvmDirectory;
     } else {
         return [self resolveJvmDirectoryForVersion:javaVersion];
@@ -76,15 +73,13 @@
 }
 
 +(NSString*)resolveJvmDylibLocation:(NSString*)jvmDirectory {
-    NSArray *dylibLocations = [NSArray arrayWithObjects:@"lib/jli/libjli.dylib",@"lib/libjli.dylib",nil];
+    NSArray *dylibLocations = [NSArray arrayWithObjects:@"lib/jli/libjli.dylib",nil];
     log_trace(@"Looking for dynamic library file, trying %i patterns inside JVM directory: %@", [dylibLocations count], jvmDirectory);
     for (id dylibLocation in dylibLocations) {
         log_trace(@"Looking for dynamic library file '%@'' inside JVM directory: %@", dylibLocation, jvmDirectory);
         NSString *dylibFileLocation = [jvmDirectory stringByAppendingPathComponent:dylibLocation];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:dylibFileLocation isDirectory:NULL]) {
             log_debug(@"Resolved JVM dylib to: %@", dylibFileLocation);
             return dylibFileLocation;
-        }
     }
     return nil;
 }
