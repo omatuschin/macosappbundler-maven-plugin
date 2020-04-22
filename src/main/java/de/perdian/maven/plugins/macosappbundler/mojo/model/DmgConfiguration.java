@@ -24,9 +24,6 @@ import org.apache.maven.shared.model.fileset.FileSet;
 public class DmgConfiguration {
 
     @Parameter
-    public boolean generate = false;
-
-    @Parameter
     public List<FileSet> additionalResources = null;
 
     @Parameter
@@ -39,7 +36,7 @@ public class DmgConfiguration {
     public boolean autoFallback = false;
 
     @Parameter
-    public boolean appendVersion = true;
+    public boolean appendVersion = false;
 
     @Parameter
     public String dmgFileName = null;
